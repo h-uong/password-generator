@@ -12,7 +12,6 @@ const toggleSwitch = document.getElementById("toggleSwitch")
 
 toggleSwitch.addEventListener("change", function(){
   document.body.classList.toggle("light-mode")
-  document.p.classList.toggle("light-mode")
 })
 
 generateBtn.addEventListener("click", function(){
@@ -31,12 +30,21 @@ generateBtn.addEventListener("click", function(){
   passwordTwo.value = randomP2
 })
 
-passwordOne.addEventListener("click", function() {
-  passwordOne.select()
-  document.execCommand("copy")
-})
+function enableCopyOnClick(inputId) {
+  const input = document.getElementById(inputId);
 
-passwordTwo.addEventListener("click", function() {
-  passwordTwo.select()
-  document.execCommand("copy")
-})
+  input.addEventListener("click", async () => {
+    input.select();
+
+    try {
+      await navigator.clipboard.writeText(input.value);
+      console.log("Copied:", input.value);
+    } catch (err) {
+      console.error("Copy failed", err);
+    }
+  });
+}
+
+enableCopyOnClick("password-one");
+enableCopyOnClick("password-two");
+
